@@ -1,12 +1,14 @@
-Original idea of: [PappaStalin](https://github.com/PappaStalin/Spotify-Lyrics)
+> Original idea of: [PappaStalin](https://github.com/PappaStalin/Spotify-Lyrics)
 
 Changes:
-- Lyrics are get from [genius](https://genius.com)
-- Litle changes in code flows.
+- Lyrics are get from [genius](https://genius.com) instead of Google
+- Changes in code flow.
 
-Tokens:
-- [Genius](https://genius.com/api-clients)
-- [Spotify](https://developer.spotify.com/console/get-users-currently-playing-track/)
+Requirements:
+- Python 3
+- `pip install lyricsgenius`
+- [Genius token](https://genius.com/api-clients)
+- [Spotify token](https://developer.spotify.com/console/get-users-currently-playing-track/)
 
 References:
 - [PappaStalin](https://github.com/PappaStalin/Spotify-Lyrics)
