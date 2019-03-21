@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 import requests
-from bs4 import BeautifulSoup
 import json
 import time
 import lyricsgenius
 
-SPOTIFY_TOKEN = 'BQBVbtf-dq1t9CiaHwCDwZtwFCAVCKGTPHOvabfP-F9-6H3frP6FsbCTTWUxgoDVX4b9e8tKpmmlmH69HrAYU4hpawsiWrdQnXogU4cfVGlMteqSW7ozWJc_URwfvR3qg6diBXCkky9B9XRk7l2Geaj1C9qRZy1gQUlWrtg'
+SPOTIFY_TOKEN = ''
+GENIUS_TOKEN = ''
 # Get oauth token from https://developer.spotify.com/console/get-users-currently-playing-track
 
 headers_Get = {
@@ -34,28 +34,23 @@ def song_data():
     except KeyError:
         return None
 
-def get_Song_Lyrics(song, artist):
-    query = song + " " + artist + " +lyrics"
-    minestrone = '\n'
-    s = requests.Session()
-    query = '+'.join(query.split())
-    url = 'https://www.google.com/search?q=' + query + '&ie=utf-8&oe=utf-8'
-    print("Googling:", url)
-    r = s.get(url, headers=headers_Get)
-    soup = BeautifulSoup(r.text, "html.parser").find_all("span", {"jsname": "YS01Ge"})
-    for link in soup:
-        minestrone += (link.text + '\n')
-    return minestrone
+def get_Song_Lyrics_genius(song, artist):
+    genius = lyricsgenius.Genius(GENIUS_TOKEN)
+    song = genius.search_song(song, artist)
+    return song.lyrics
 
 def main():
+    lastSong = None
     while True:
         currentSong = song_data()
         if currentSong:
-            print("Song: {}, artist: {}".format(currentSong[0], currentSong[1]))
-            print(get_Song_Lyrics(*currentSong))
+            if currentSong != lastSong:
+                lastSong = currentSong
+                print("Song: {}, artist: {}".format(currentSong[0], currentSong[1]))
+                print(get_Song_Lyrics_genius(*currentSong))
         else:
             print("Could not get song data")
-        time.sleep(1000)
+        time.sleep(10)
 
 if __name__ == '__main__':
     try:
